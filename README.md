@@ -2,7 +2,7 @@
 
 **API Rest do projeto Bookshelf - Estante de livros virtual**\
 \
-_**Grupo:** Giulia Pina e Luiz Felipe Biazolla_ 
+_**Grupo:** Giulia Pina e Luiz Felipe Biazzola_ 
 
 ## Requisitos
 
