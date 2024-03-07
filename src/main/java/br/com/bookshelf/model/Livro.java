@@ -20,7 +20,19 @@ public class Livro {
     private String editora;
     private Date dataPublicacao;
     private String capa;
-    
+
+        
+    public Livro(Long id, String nome, List<String> genero, int paginas, String autor, String editora,
+            Date dataPublicacao, String capa) {
+        this.id = id;
+        this.nome = nome;
+        this.genero = genero;
+        this.paginas = paginas;
+        this.autor = autor;
+        this.editora = editora;
+        this.dataPublicacao = dataPublicacao;
+        this.capa = capa;
+    }
     public Long getId() {
         return id;
     }
