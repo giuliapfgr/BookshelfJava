@@ -9,11 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Entity
-@Data
+@Entity //Marca a classe como uma entidade JPA
+@Data //Anotação usando a biblioteca lombok para criar os getter, setters,constructor e etc
 public class Livro {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)//Gera o ID automaticamente com o autoincremento
     private Long id;
     private String nome;
     private List<String> genero;
