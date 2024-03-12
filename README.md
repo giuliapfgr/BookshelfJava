@@ -36,8 +36,8 @@ Retorna um array com todos os livros cadastrados pelo usuário atual.
 {
     "id do livro": 1,
     "nome": "O Senhor dos Anéis: A Sociedade do Anel",
-    "gênero": "Fantasia", "Aventura",
-    "páginas": 576,
+    "genero": ["Fantasia", "Aventura"],
+    "paginas": 576,
     "autor": "J. R. R. Tolkien",
     "editora": "HarperCollins",
     "data de publicação": 1954,
@@ -78,8 +78,8 @@ Cadastra um livro com os dados enviados no corpo da requisição.
 
 {
     "nome": "O Senhor dos Anéis: A Sociedade do Anel",
-    "gênero": "Fantasia", "Aventura",
-    "páginas": 576,
+    "genero": ["Fantasia", "Aventura"],
+    "paginas": 576,
     "autor": "J. R. R. Tolkien",
     "editora": "HarperCollins",
     "data de publicação": 1954,
@@ -95,8 +95,8 @@ Cadastra um livro com os dados enviados no corpo da requisição.
     {
         "id": 1,
         "nome": "O Senhor dos Anéis: A Sociedade do Anel",
-        "gênero": "Fantasia", "Aventura",
-        "páginas": 576,
+        "genero": ["Fantasia", "Aventura"],
+        "paginas": 576,
         "autor": "J. R. R. Tolkien",
         "editora": "HarperCollins",
         "data de publicação": 1954,
@@ -144,9 +144,9 @@ Retorna os dados do livro com o `id` informado no parâmetro de path.
 
 {
 "id": 2,
-"nome": "Orgulho e Preconceito"
-"gênero": "Drama", "Romance",
-"páginas": 424,
+"nome": "Orgulho e Preconceito",
+"genero": ["Drama", "Romance"],
+"paginas": 424,
 "autor": "Jane Austen",
 "editora": "Martin Claret",
 "data de publicação": 1813,
@@ -187,9 +187,9 @@ Atualiza os dados do livro com o `id` informado no path
 
 ```js
 {
-"nome": "Orgulho e Preconceito"
-"gênero": "Drama", "Romance",
-"páginas": 424,
+"nome": "Orgulho e Preconceito",
+"genero": ["Drama", "Romance"],
+"paginas": 424,
 "autor": "Jane Austen",
 "editora": "Martin Claret",
 "data de publicação": 1813,
@@ -204,9 +204,9 @@ Atualiza os dados do livro com o `id` informado no path
 ```js
 {
 "id": 2,
-"nome": "Orgulho e Preconceito"
-"gênero": "Drama", "Romance",
-"páginas": 424,
+"nome": "Orgulho e Preconceito",
+"genero": ["Drama", "Romance"],
+"paginas": 424,
 "autor": "Jane Austen",
 "editora": "Martin Claret",
 "data de publicação": 1813,
