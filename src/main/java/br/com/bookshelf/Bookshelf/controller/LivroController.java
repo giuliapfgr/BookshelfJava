@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.bookshelf.model.Livro;
-import br.com.bookshelf.repository.LivroRepository;
+import br.com.bookshelf.Bookshelf.model.Livro;
+import br.com.bookshelf.Bookshelf.repository.LivroRepository;
 
 @RestController //Anotação para informar que a classe é um controller e que os metodos tratam solicitações HTTP
 @RequestMapping("livro")//Anotação para mapear todas as solicitações feitas para a url /livro exemplo localhost:8080/livro

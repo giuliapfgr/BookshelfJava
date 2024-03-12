@@ -1,4 +1,4 @@
-package br.com.bookshelf.model;
+package br.com.bookshelf.Bookshelf.model;
 
 import java.util.Date;
 import java.util.List;
