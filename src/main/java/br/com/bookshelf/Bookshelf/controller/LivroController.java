@@ -1,14 +1,13 @@
 package br.com.bookshelf.Bookshelf.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,87 +16,64 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.bookshelf.model.Livro;
+import br.com.bookshelf.repository.LivroRepository;
 
-@Controller
+@RestController
 @RequestMapping("livro")
 public class LivroController {
 
     Logger log = LoggerFactory.getLogger(getClass());
     
-    List<Livro> repository = new ArrayList<>();
+    @Autowired
+    LivroRepository repository;
     
     @GetMapping
     public List<Livro> index(){
-        return repository;
+        return repository.findAll();
     }
 
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
+    @ResponseStatus(code = CREATED)
     public Livro create(@RequestBody Livro livro){
         log.info("Cadastrando livro" + livro);
-        repository.add(livro);
+        repository.save(livro);
         return livro;
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Livro> show (@PathVariable Long id){
         log.info("buscar categoria por id {}", id);
-
-        var livroEncontrado = getLivroById(id);
-
-        if( livroEncontrado.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(livroEncontrado.get());
-
+        return repository
+                    .findById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
     }
+    
     @DeleteMapping("{id}")
     public ResponseEntity<Object> destroy(@PathVariable Long id){
         log.info("Apagando livro com id {}", id);
-
-        var livroEncontrado = getLivroById(id);
-
-        if(livroEncontrado.isEmpty()){
-           return ResponseEntity.notFound().build();
-        }
-        repository.remove(livroEncontrado.get());
+        verifyIfExists(id);
+        repository.deleteById(id);
         return ResponseEntity.noContent().build();
-
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Livro> atualizar (@PathVariable Long id, @RequestBody Livro livro){
         log.info("atualizando livro com id {} para {}",id,livro);
-        var livroEncontrado = getLivroById(id);
-
-        if(livroEncontrado.isEmpty()){
-            return ResponseEntity.notFound().build();
-         }
-
-        var livroAntigo = livroEncontrado.get();
-        var livroNovo = new Livro(id, livro.getNome(),
-                livro.getGenero(),livro.getPaginas(),
-                livro.getAutor(), livro.getEditora(),
-                livro.getDataPublicacao(),livro.getCapa());
-
-        repository.remove(livroAntigo);
-        repository.add(livroNovo);
-
-        return ResponseEntity.ok(livroNovo);
-        
+        verifyIfExists(id);
+        livro.setId(id);
+        repository.save(livro);
+        return ResponseEntity.ok(livro);
     }
 
-
-    private Optional<Livro> getLivroById(Long id) {
-        var livroEncontrado = repository
-                                    .stream()
-                                    .filter( c -> c.getId().equals(id))
-                                    .findFirst();
-        return livroEncontrado;
+    private void verifyIfExists(Long id) {
+        repository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Não existe categoria com o id informado"));
     }
 
-    
-    
 }
