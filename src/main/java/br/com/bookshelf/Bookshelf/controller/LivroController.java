@@ -2,10 +2,9 @@ package br.com.bookshelf.Bookshelf.controller;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,13 +20,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.bookshelf.Bookshelf.model.Livro;
 import br.com.bookshelf.Bookshelf.repository.LivroRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController //Anotação para informar que a classe é um controller e que os metodos tratam solicitações HTTP
 @RequestMapping("livro")//Anotação para mapear todas as solicitações feitas para a url /livro exemplo localhost:8080/livro
+@Slf4j
 public class LivroController {
 
-    Logger log = LoggerFactory.getLogger(getClass());//criação de uma logger Factory para registrar os logs durante a execução
-    
+       
     @Autowired//injeta uma instancia do LivroRepository fazendo com que possa acessar metodos do repositorio
     LivroRepository repository;
     
@@ -37,11 +37,10 @@ public class LivroController {
     }
 
     @PostMapping//HTTP POST cria um novo livro recebendo as informações dos atributos do Livro no corpo da requisição, salva no BD e retorna 201
-    @ResponseStatus(code = CREATED)
+    @ResponseStatus(CREATED)
     public Livro create(@RequestBody Livro livro){
         log.info("Cadastrando livro" + livro);
-        repository.save(livro);
-        return livro;
+        return repository.save(livro);
     }
 
     @GetMapping("{id}")//HTTP GET porém desta vez, retorna um livro com um iD especifico /livro/{id}
@@ -53,21 +52,21 @@ public class LivroController {
                     .orElse(ResponseEntity.notFound().build());//Caso não encontre o id informado retorna 404
     }
     
-    @DeleteMapping("{id}")//HTTP DELETE buscando pelo id /livro/{id}
-    public ResponseEntity<Object> destroy(@PathVariable Long id){
+    @DeleteMapping("{id}")
+    @ResponseStatus(NO_CONTENT)//HTTP DELETE buscando pelo id /livro/{id}
+    public void destroy(@PathVariable Long id){
         log.info("Apagando livro com id {}", id);
         verifyIfExists(id);//Verifica se o id existe, caso não retorna 404
         repository.deleteById(id);//Deleta objeto com o id informado
-        return ResponseEntity.noContent().build();//retorna 204
+        
     }
 
     @PutMapping("{id}")//HTTP PUT para atualizar um livro pelo id
-    public ResponseEntity<Livro> atualizar (@PathVariable Long id, @RequestBody Livro livro){
+    public Livro atualizar (@PathVariable Long id, @RequestBody Livro livro){
         log.info("atualizando livro com id {} para {}",id,livro);
         verifyIfExists(id);//Verifica se o id existe, caso não retorna 404
         livro.setId(id);//Faz com que o ID seja o mesmo que o informado não criando um novo livro
-        repository.save(livro);//Salva as informações atualizadas
-        return ResponseEntity.ok(livro);//Retorna 200
+        return repository.save(livro);//Retorna 200
     }
 
     private void verifyIfExists(Long id) {//metodo para validar se o ID existe
