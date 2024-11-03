@@ -11,9 +11,10 @@ import lombok.Data;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     @Column(name = "id_do_usuario")
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "{usuario.nome.notblank}")
     @Column(name = "nome", nullable = false)
@@ -27,7 +28,7 @@ public class User {
     @Column(name = "idade", nullable = false)
     private int idade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_do_livro", nullable = false)
     private Livro livro;
 }

@@ -3,6 +3,7 @@ package br.com.bookshelf.Bookshelf.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -15,7 +16,8 @@ import lombok.Data;
 public class Livro {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "livro_seq")
+    @SequenceGenerator(name = "livro_seq", sequenceName = "livro_seq", allocationSize = 1)
     @Column(name = "id_do_livro")
     private Long id;
 
@@ -38,14 +40,14 @@ public class Livro {
     @Column(name = "editora", nullable = false)
     private String editora;
 
-    @Past(message = "{livro.data_de_publicacao.past}")
     @Column(name = "data_de_publicacao")
-    private LocalDate dataPublicacao;
+    private int dataPublicacao;
 
     @NotBlank(message = "{livro.capa.notblank}")
     @Column(name = "capa")
     private String capa;
 
-    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<User> usuarios;
 }

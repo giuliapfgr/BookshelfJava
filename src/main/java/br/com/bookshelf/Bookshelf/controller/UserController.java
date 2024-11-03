@@ -56,7 +56,7 @@ public class UserController{
     public User atualizar (@PathVariable Integer id, @RequestBody User user){
         log.info("atualizando usuário com id {} para {}",id,user);
         verifyIfExists(id);
-        user.setId(id);
+        user.setId(Long.valueOf(id));
         return repository.save(user);
     }
 

@@ -9,6 +9,8 @@ CREATE TABLE livro (
     capa VARCHAR(255)
 );
 
+CREATE SEQUENCE livro_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE usuario(
     id_do_usuario INT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
@@ -18,3 +20,4 @@ CREATE TABLE usuario(
     FOREIGN KEY (id_do_livro) REFERENCES livro(id_do_livro)
 );
 
+CREATE SEQUENCE user_seq START WITH 1 INCREMENT BY 1;
