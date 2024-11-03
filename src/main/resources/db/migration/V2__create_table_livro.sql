@@ -9,6 +9,12 @@ CREATE TABLE livro (
     capa VARCHAR(255)
 );
 
+CREATE TABLE usuario(
+    id_do_usuario INT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    idade INT NOT NULL,
+    id_do_livro INT NOT NULL,
+    FOREIGN KEY (id_do_livro) REFERENCES livro(id_do_livro)
+);
 
-INSERT INTO livro (id_do_livro, nome, genero, paginas, autor, editora, data_de_publicacao, capa)
-VALUES (1, 'O Senhor dos Anéis: A Sociedade do Anel', 'Fantasia, Aventura', 576, 'J. R. R. Tolkien', 'HarperCollins', 1954, 'imagem da capa');
