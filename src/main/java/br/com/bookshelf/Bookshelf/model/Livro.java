@@ -47,7 +47,7 @@ public class Livro {
     @Column(name = "capa")
     private String capa;
 
-    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<User> usuarios;
 }
